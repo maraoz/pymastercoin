@@ -4,7 +4,6 @@
 
 import sys
 import argparse
-import pprint
 from bitcoinrpc import authproxy
 
 from embed import recover_bytes_from_address
@@ -16,7 +15,7 @@ def main(args):
     BITCOIN_RPC_URL = 'http://%s:%s@%s:%s/' % (args.username, args.password, args.host, args.port)
     
     bitcoin = authproxy.AuthServiceProxy(BITCOIN_RPC_URL)
-    
+    print args
     addresses = {}
     balances = {}
     results = bitcoin.listreceivedbyaddress()
@@ -66,13 +65,15 @@ def parse():
     parser.add_argument('-u', '--username', type=str, nargs=1, required=True, help='the bitcoin-rpc username')
     parser.add_argument('-p', '--password', type=str, nargs=1, required=True, help='the bitcoin-rpc password')
     
-    parser.add_argument('-H', '--host', type=str, nargs=1, default="localhost", help='the bitcoin-rpc host')
-    parser.add_argument('-P', '--port', type=int, nargs=1, default=8332, help='the bitcoin-rpc port')
+    parser.add_argument('-H', '--host', type=str, nargs=1, default=["localhost"], help='the bitcoin-rpc host')
+    parser.add_argument('-P', '--port', type=int, nargs=1, default=[8332], help='the bitcoin-rpc port')
     
     args = parser.parse_args()
     
     args.username = args.username[0]
     args.password = args.password[0]
+    args.host = args.host[0]
+    args.port = args.port[0]
     
     main(args)
     
