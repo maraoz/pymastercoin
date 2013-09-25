@@ -7,7 +7,7 @@ import argparse
 from bitcoinrpc import authproxy
 
 from embed import recover_bytes_from_address
-from message import MastercoinAddressMessage, CURR_ID_TESTCOIN, CURRENCIES, CURRENCY_NAME, DACOINMINISTERS_IN_MSC
+from message import MastercoinAddressMessage, MastercoinMultisigMessage, CURR_ID_TESTCOIN, CURRENCIES, CURRENCY_NAME, DACOINMINISTERS_IN_MSC
 
 
 
@@ -15,7 +15,12 @@ def main(args):
     BITCOIN_RPC_URL = 'http://%s:%s@%s:%s/' % (args.username, args.password, args.host, args.port)
     
     bitcoin = authproxy.AuthServiceProxy(BITCOIN_RPC_URL)
-    print args
+    msc_msg = MastercoinMultisigMessage(None,None,None)
+    data = msc_msg.broadcast(bitcoin)
+    
+    
+    return
+    
     addresses = {}
     balances = {}
     results = bitcoin.listreceivedbyaddress()
